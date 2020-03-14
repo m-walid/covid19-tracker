@@ -15,7 +15,7 @@ body{
 
     flex-direction: column;
     align-items: center;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
 }
 
 h1{
@@ -60,6 +60,9 @@ h2{
     border-color: #bb5b02;
 }
 
+.footer{
+    margin-bottom: 20px;
+}
 @media only screen and (min-width: 768px) {
     body{
         font-size: 20px;
