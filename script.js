@@ -264,7 +264,7 @@ let h1="حالات ڤيروس كورونا في " +countries["Egypt"];
 titleAr.innerHTML=h1;
 titleEng.innerText="COVID-19 "+"Egypt";
 let oldValue="Egypt";
-menu.addEventListener('click',()=>{
+menu.addEventListener('change',()=>{
 if(oldValue!=menu.value){
     updateData(menu.value);
     oldValue=menu.value;
