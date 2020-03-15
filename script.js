@@ -258,9 +258,10 @@ function fillMenu(data){
     })
     
 }
+// "حالات ڤيروس كورونا في "
 
 updateData("Egypt");
-let h1="حالات ڤيروس كورونا في " +countries["Egypt"];     
+let h1= countries["Egypt"];     
 titleAr.innerHTML=h1;
 titleEng.innerText="COVID-19 "+"Egypt";
 let oldValue="Egypt";
@@ -268,7 +269,7 @@ menu.addEventListener('change',()=>{
 if(oldValue!=menu.value){
     updateData(menu.value);
     oldValue=menu.value;
-    h1="حالات ڤيروس كورونا في " +countries[menu.value];     
+    h1= countries[menu.value];     
     titleAr.innerHTML=h1;
     titleEng.innerText="COVID-19 "+menu.value;
 }
