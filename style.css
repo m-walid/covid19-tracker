@@ -36,7 +36,7 @@ h2{
 }
 .counter{
     display: inline-block;
-    margin-top: 0.4em;
+    margin-top: 0.3em;
     font-size: 1.5em;
     font-weight: 600;
     border: 1px solid black;
@@ -92,16 +92,37 @@ h2{
     
   }
 
-  .change-lang{
+  .change-country{
      align-self: flex-start;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     width: 90%;
+     margin: 5px 3px 20px 10px;
     
   }
+  .world{
+      margin-top: 9px;
+      margin-left: 10px;
+  }
+  .world p{
+      font-size: 0.8em;
+      margin:0;
+      padding: 0;
+  }
+  .fa-globe-europe{
+      font-size: 1.8em;
+  }
 
-  .select-lang{
+  .fa-globe-europe:active{
+      color: #3a3f46;
+  }
+
+  .select-country{
       border-radius: 5px;
       padding: 5px;
       text-align: center;
-    margin: 5px 3px 20px 10px;
+   
 
       /* handle scroll*/
       max-height: 100px;

@@ -1,13 +1,5 @@
 
 
-const titleAr=document.querySelector(".country-title-ar");
-const titleEng=document.querySelector(".country-title-eng");
-const menu=document.querySelector(".select-lang");
-let flag=true;
-
-
-
-
 
 
 
@@ -151,7 +143,7 @@ const countries={
     "Antigua and Barbuda": "أنتيغوا وبربودا",
     "Bhutan": "بوتان",
     "Cayman Islands": "جزر كايمان",
-    "CAR": "سيارة",
+    "CAR": "جمهورية افريقيا الوسطى",
     "Congo": "الكونغو",
     "Equatorial Guinea": "غينيا الإستوائية",
     "Ethiopia": "أثيوبيا",
@@ -170,7 +162,8 @@ const countries={
     "Eswatini":"Eswatini",
     "Togo":"توجو",
     "U.S. Virgin Islands":"جزر فيرجن الأمريكية",
-    "Uzbekistan":"أوزبكستان"
+    "Uzbekistan":"أوزبكستان",
+    "World":"في العالم"
     }
 
 
@@ -179,7 +172,19 @@ const countries={
 
 
 
+    const titleAr=document.querySelector(".country-title-ar");
+    const titleEng=document.querySelector(".country-title-eng");
+    const menu=document.querySelector(".select-country");
+    let flag=true;
 
+    const globe=document.querySelector(".world");
+
+    const world_total={
+        cases:0,
+        total_recovered:0,
+        deaths:0,
+        serious_critical:0
+    }
 
 
 
@@ -202,7 +207,13 @@ function updateData(country){
                 fillMenu(resp);
                 flag=false;
             }
-            countryData =resp['countries_stat'].find(elm=> elm.country_name==country);
+            if(country=="World"){
+                countryData=world_total;
+            }
+            else{
+                countryData =resp['countries_stat'].find(elm=> elm.country_name==country);
+
+            }
 
             // console.log(countryData)
 
@@ -214,9 +225,7 @@ function updateData(country){
                 
                 const updateCounter= () =>{
 
-                    let target=countryData[counter.id];
-                    target=target.replace(/,/g,"");
-                    target=+target;
+                    let target=removeComma(String(countryData[counter.id]));
                     const count=+counter.innerText;
                     let inc;
                     if(target<100) inc=1;
@@ -246,11 +255,21 @@ function updateData(country){
 }
 
 
+
 function fillMenu(data){
     let options=[];
-    data.countries_stat.forEach(elm=>{options.push(elm.country_name)});
+    data.countries_stat.forEach(elm=>{
+        options.push(elm.country_name);
+        world_total.cases+=removeComma(elm.cases);
+        world_total.total_recovered+=removeComma(elm.total_recovered);
+        world_total.deaths+=removeComma(elm.deaths);
+        world_total.serious_critical+=removeComma(elm.serious_critical);
+    });
+
+
     options.sort();
-    options.splice(options.indexOf("CAR"),1);
+    // options.splice(options.indexOf("CAR"),1);
+    options.splice(0,0,"World");
     options.forEach(elm =>{
         const option=document.createElement("option");
         option.innerHTML=elm;
@@ -262,27 +281,41 @@ function fillMenu(data){
     })
     
 }
-// "حالات ڤيروس كورونا في "
+
+
+function updateHeader(country){
+    h1= countries[country];     
+    titleAr.innerHTML=h1;
+    titleEng.innerText="COVID-19 "+country;
+}
 
 updateData("Egypt");
-let h1= countries["Egypt"];     
-titleAr.innerHTML=h1;
-titleEng.innerText="COVID-19 "+"Egypt";
+updateHeader("Egypt")
+
 let oldValue="Egypt";
 menu.addEventListener('change',()=>{
 if(oldValue!=menu.value){
     updateData(menu.value);
     oldValue=menu.value;
-    h1= countries[menu.value];     
-    titleAr.innerHTML=h1;
-    titleEng.innerText="COVID-19 "+menu.value;
+   updateHeader(menu.value);
 }
 
-    });
+ });
 
 
 
 
 
+function removeComma(target){
+    target=target.replace(/,/g,"");
+    target=+target;
+    return target;
+}
 
 
+globe.addEventListener("click",()=>{
+    updateData("World");
+    updateHeader("World");
+    menu.value="World";
+    oldValue="World";
+})
