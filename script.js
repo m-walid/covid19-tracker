@@ -250,6 +250,7 @@ function fillMenu(data){
     let options=[];
     data.countries_stat.forEach(elm=>{options.push(elm.country_name)});
     options.sort();
+    options.splice(options.indexOf("CAR"),1);
     options.forEach(elm =>{
         const option=document.createElement("option");
         option.innerHTML=elm;
