@@ -182,7 +182,7 @@ const countries={
         cases:0,
         total_recovered:0,
         deaths:0,
-        serious_critical:0
+        active_cases:0
     }
 
 
