@@ -247,13 +247,16 @@ function updateData(country){
 
 
 function fillMenu(data){
-    data.countries_stat.forEach(elm =>{
+    let options=[];
+    data.countries_stat.forEach(elm=>{options.push(elm.country_name)});
+    options.sort();
+    options.forEach(elm =>{
         const option=document.createElement("option");
-        option.innerHTML=elm.country_name;
+        option.innerHTML=elm;
         if (option.text == 'Egypt') {
             option.setAttribute('selected', true);
         }
-        option.value=elm.country_name;
+        option.value=elm;
         menu.appendChild(option);
     })
     
