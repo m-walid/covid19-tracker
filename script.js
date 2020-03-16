@@ -173,7 +173,6 @@ const countries={
 
 
     const titleAr=document.querySelector(".country-title-ar");
-    const titleEng=document.querySelector(".country-title-eng");
     const menu=document.querySelector(".select-country");
     let flag=true;
 
@@ -286,7 +285,6 @@ function fillMenu(data){
 function updateHeader(country){
     h1= countries[country];     
     titleAr.innerHTML=h1;
-    titleEng.innerText="COVID-19 "+country;
 }
 
 updateData("Egypt");
