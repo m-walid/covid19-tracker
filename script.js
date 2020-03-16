@@ -262,7 +262,7 @@ function fillMenu(data){
         world_total.cases+=removeComma(elm.cases);
         world_total.total_recovered+=removeComma(elm.total_recovered);
         world_total.deaths+=removeComma(elm.deaths);
-        world_total.serious_critical+=removeComma(elm.serious_critical);
+        world_total.active_cases+=removeComma(elm.active_cases);
     });
 
 
