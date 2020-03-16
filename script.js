@@ -257,7 +257,13 @@ function updateData(country){
 
 function fillMenu(data){
     let options=[];
+    //console.log(data.countries_stat.length)
     data.countries_stat.forEach(elm=>{
+        
+        // if( removeComma(elm.cases)<=50){
+        //     console.log("zoz")
+        // }
+
         options.push(elm.country_name);
         world_total.cases+=removeComma(elm.cases);
         world_total.total_recovered+=removeComma(elm.total_recovered);
@@ -283,8 +289,17 @@ function fillMenu(data){
 
 
 function updateHeader(country){
+
     h1= countries[country];     
     titleAr.innerHTML=h1;
+    let opacity=0
+    titleAr.style.opacity=""+opacity;
+    const h1Animation= setInterval(()=>{
+    if(opacity>=1) clearInterval(h1Animation);
+    opacity+=0.01;
+    titleAr.style.opacity=""+opacity;
+   },5);
+    
 }
 
 updateData("Egypt");
