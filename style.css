@@ -9,7 +9,7 @@ body{
     /* background-color: #212222;
     color:white */
 
-    
+    transition: background-color 0.7s linear;
 }
 
 .container{
@@ -61,8 +61,8 @@ h2{
 }
 
 #cases{
-    color: #534c77;
-    border-color:#534c77 ;
+    color: #6c4fec;
+    border-color:#6c4fec ;
 }
 
 #deaths{
@@ -99,24 +99,41 @@ h2{
       padding: 0px;
     
   }
+  .settings{
+    align-self: flex-start;
+    width: 95%;
+    margin: 5px auto -20px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+  }
+
+  .lang , .darkmode{
+      border:0;
+      background-color:#e5e6e9 ;
+      border: 1px solid #000000;
+      padding: 5px;
+      margin-top: 7px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 0.8em;
+  }
 
   .change-country{
-     align-self: flex-start;
+     
      display: flex;
-     justify-content: space-between;
-     align-items: center;
-     width: 95%;
-     /* margin: 5px 10px 20px 10px; */
-     margin: 5px auto;
+     flex-direction: column;
+     justify-content: center;
+     align-items: flex-start;
     
   }
   .world{
       margin-top: 9px;
-      margin-left: 10px;
       margin-bottom: 10px;
       background-color: #e5e6e9;
       padding: 3px 5px;
-      border: 1px solid #3a3f46;
+      border: 1px solid #000000;
       border-radius: 10px;
       display: flex;
       justify-content: space-between;
@@ -132,19 +149,22 @@ h2{
       font-size: 1.2em;
   }
 
-  .world:active{
+  .bt:active{
      background-color:  #b9bcc0;
+  }
+  .bt{
+      padding: 6px 11px;
   }
 
   .select-country{
-      border-radius: 5px;
+      border-radius: 10px;
       padding: 5px;
       text-align: center;
    
 
       /* handle scroll*/
       max-height: 100px;
-      width: 80px;
+      width: 70px;
       overflow: scroll;
       background-color: #e5e6e9;
      

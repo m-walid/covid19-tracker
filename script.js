@@ -317,3 +317,35 @@ globe.addEventListener("click",()=>{
     menu.value="World";
     oldValue="World";
 })
+
+const mode=document.querySelector(".darkmode")
+
+
+mode.addEventListener("click", ()=>{
+    if(mode.innerText=="Dark Mode"){
+        mode.innerText="Light Mode";
+        const body=document.querySelector("body");
+        body.style.backgroundColor="black";
+        body.style.color="white";
+        menu.style.backgroundColor="#102666";
+        menu.style.color="white"
+        document.querySelectorAll(".bt").forEach(elm=>{
+            // elm.style.color="black";
+            elm.style.backgroundColor="#102666"
+            elm.style.borderColor="0"
+        })
+    }
+    else{
+        mode.innerText="Dark Mode"
+        const body=document.querySelector("body");
+        body.style.backgroundColor="white";
+        body.style.color="black";
+        menu.style.backgroundColor="#e5e6e9";
+        menu.style.color="black"
+        document.querySelectorAll(".bt").forEach(elm=>{
+            // elm.style.color="black";
+            elm.style.backgroundColor="#e5e6e9"
+            elm.style.borderColor="black"
+        })
+    }
+})
