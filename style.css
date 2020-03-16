@@ -99,13 +99,13 @@ h2{
       padding: 0px;
     
   }
-  .settings{
-    align-self: flex-start;
+  
+  .site-settings{
     width: 95%;
-    margin: 5px auto -20px auto;
+    margin: 5px auto -40px auto;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
 
   }
 
@@ -121,11 +121,13 @@ h2{
   }
 
   .change-country{
-     
-     display: flex;
-     flex-direction: column;
-     justify-content: center;
-     align-items: flex-start;
+    align-self: flex-start;
+    width: 95%;
+    margin: 5px auto -20px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
     
   }
   .world{
@@ -153,7 +155,8 @@ h2{
      background-color:  #b9bcc0;
   }
   .bt{
-      padding: 6px 11px;
+      padding: 4px 6px;
+      cursor: pointer;
   }
 
   .select-country{
