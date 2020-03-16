@@ -81,6 +81,8 @@ h2{
 
 .footer{
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
 @media only screen and (min-width: 768px) {
     body{
@@ -160,6 +162,5 @@ a:visited{
     font-size: 0.8em;
 }
 .fb-share-button{
-    display: block;
     margin-bottom: 20px;
 }
