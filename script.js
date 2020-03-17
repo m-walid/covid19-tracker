@@ -174,9 +174,10 @@ const countries={
 
     const titleAr=document.querySelector(".country-title-ar");
     const menu=document.querySelector(".select-country");
-    let flag=true;
-
+    const mode=document.querySelector(".darkmode");
     const globe=document.querySelector(".world");
+    const body=document.querySelector("body");
+    let flag=true;
 
     const world_total={
         cases:0,
@@ -189,6 +190,12 @@ const countries={
 
 
 
+
+if(localStorage.getItem("mode")=="Dark Mode"){
+    mode.innerHTML="Light Mode";
+    body.style.transitionDuration="0s";
+    setTheme("Black", "#c0c0c0", "#102666", "#b4b4b4");
+}
 
 
 function updateData(country){
@@ -333,34 +340,32 @@ globe.addEventListener("click",()=>{
     oldValue="World";
 })
 
-const mode=document.querySelector(".darkmode")
+
+
+
+function setTheme(bg, font, btBg, btBr){
+        body.style.backgroundColor=bg;
+        body.style.color=font;
+        menu.style.backgroundColor=btBg;
+        menu.style.color=font
+        document.querySelectorAll(".bt").forEach(elm=>{
+            // elm.style.color=bg;
+            elm.style.backgroundColor=btBg
+            elm.style.borderColor=btBr
+        })
+}
 
 
 mode.addEventListener("click", ()=>{
+    body.style.transitionDuration="0.7s";
     if(mode.innerText=="Dark Mode"){
         mode.innerText="Light Mode";
-        const body=document.querySelector("body");
-        body.style.backgroundColor="black";
-        body.style.color="white";
-        menu.style.backgroundColor="#102666";
-        menu.style.color="white"
-        document.querySelectorAll(".bt").forEach(elm=>{
-            // elm.style.color="black";
-            elm.style.backgroundColor="#102666"
-            elm.style.borderColor="0"
-        })
+        setTheme("Black", "#c0c0c0", "#102666", "#b4b4b4");
+        localStorage.setItem("mode","Dark Mode");
     }
     else{
-        mode.innerText="Dark Mode"
-        const body=document.querySelector("body");
-        body.style.backgroundColor="white";
-        body.style.color="black";
-        menu.style.backgroundColor="#e5e6e9";
-        menu.style.color="black"
-        document.querySelectorAll(".bt").forEach(elm=>{
-            // elm.style.color="black";
-            elm.style.backgroundColor="#e5e6e9"
-            elm.style.borderColor="black"
-        })
+        mode.innerText="Dark Mode";
+      setTheme("White", "Black", "#e5e6e9", "Black");
+      localStorage.removeItem("mode");
     }
 })
