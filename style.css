@@ -186,5 +186,36 @@ a:visited{
     /* margin-bottom: 80px; */
 }
 .fb-share-button{
+}
+
+.share-social{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     margin-bottom: 20px;
+}
+.fa-whatsapp{
+    padding: 0;
+    margin-right:4px;
+    font-size: 17px;
+}
+.wa-share{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+    border:0;
+    border-radius: 4px;
+    background-color: #0b880b;
+    height:28px ;
+    width: 90px;
+    font-weight: 900;
+    font-size: 15px;
+    color: white;
+    text-decoration: none;
+
+    
+}
+.wa-share:visited{
+    color: white;
 }
