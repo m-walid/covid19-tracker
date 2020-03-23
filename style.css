@@ -11,6 +11,13 @@ body{
 
     transition: background-color 0.7s linear;
 }
+a{
+    color: rgb(27, 26, 26);
+    font-weight:600 ;
+}
+a:visited{
+    color: #3a3f46;
+}
 
 .container{
     display: flex;
@@ -105,8 +112,15 @@ h2{
     margin: 5px auto -20px auto;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: space-between;
 
+  }
+  .site-settings a{
+      text-decoration: underline;
+      color: #6c4fec;
+  }
+  .site-settings a :visited{
+      color: #6c4fec;
   }
 
   .lang , .darkmode{
@@ -172,21 +186,14 @@ h2{
       background-color: #e5e6e9;
      
   }
-a{
-    color: rgb(27, 26, 26);
-    font-weight:600 ;
-}
-a:visited{
-    color: #3a3f46;
-}
+
 
 .disclaimer{
     margin: 5px 10px;
     font-size: 0.8em;
     /* margin-bottom: 80px; */
 }
-.fb-share-button{
-}
+
 
 .share-social{
     display: flex;
