@@ -41,9 +41,19 @@ function GetCountries(text,response){
     var letters = /^[a-z]+$/;
     if(text.match(letters)){ //checks that a string contains letter 
         let countries_data=response.countries_stat.filter(elm=>elm.country_name.toLowerCase().includes(text));
-        countries_data.forEach(element => {
-            addCard(element,false);
-        });
+        
+        let max= countries_data.length>10 ? 10 :countries_data.length ;
+        let i=0
+        for(let i=0; i<max; i++){
+            addCard(countries_data[i],false); //displays only 10 results
+        } 
+
+        
+
+
+        // countries_data.forEach(element => {
+        //     addCard(element,false);
+        // });
     }
     else{
         addCard(response.countries_stat[response.countries_stat.length-1],"disabled")
