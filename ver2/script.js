@@ -6,7 +6,7 @@ var data = null;
 
 var xhr = new XMLHttpRequest();
 xhr.withCredentials = true;
-
+let flag1=false;
 xhr.addEventListener("readystatechange", function () {
 	if (this.readyState === this.DONE) {
         let response=JSON.parse(this.responseText);
@@ -16,8 +16,11 @@ xhr.addEventListener("readystatechange", function () {
         addpinned(localStorage.getItem("pinned"),response)
 
 
-        search.addEventListener("keyup",()=>{
-            GetCountries(search.value,response);
+        search.addEventListener("keyup",(e)=>{
+           
+
+                GetCountries(search.value,response);
+            
         });
 	}
 });
@@ -37,9 +40,10 @@ xhr.send(data);
 function GetCountries(text,response){
     text=text.toLowerCase()
     
-    cardContainer.innerHTML="";
+    
     var letters = /^[a-z]+/;
     if(text.match(letters)){ //checks that a string contains letter 
+        cardContainer.innerHTML="";
         let countries_data=response.countries_stat.filter(elm=>elm.country_name.toLowerCase().includes(text));
         
         let max= countries_data.length>10 ? 10 :countries_data.length ;
@@ -49,16 +53,19 @@ function GetCountries(text,response){
         } 
 
         
-
+          flag1=true;  
 
         // countries_data.forEach(element => {
         //     addCard(element,false);
         // });
     }
-    else{
+    else if(flag1) {
+        cardContainer.innerHTML="";
         addCard(response.countries_stat[response.countries_stat.length-1],"disabled")
         addpinned(localStorage.getItem("pinned"),response)
+        flag1=false;
     }
+    
 }
 
 
@@ -80,23 +87,23 @@ function addCard(data,pin){
         </div>
         <i class="fas fa-thumbtack"></i>
         <div class="card-item cases">
-            <span class="label">all cases : </span>
+            <span class="label">All cases : </span>
             <span class="counter">${data.cases}</span>
         </div>
         <div class="card-item total_recovered">
-            <span class="label">recovered : </span>
+            <span class="label">Recovered : </span>
             <span class="counter">${data.total_recovered}</span>
         </div>
         <div class="card-item deaths">
-            <span class="label">deaths : </span>
+            <span class="label">Deaths : </span>
             <span class="counter">${data.deaths}</span>
         </div>
         <div class="card-item active_cases">
-            <span class="label">active cases : </span>
+            <span class="label">Active cases : </span>
             <span class="counter">${data.active_cases}</span>
         </div>
         <div class="card-item new_cases">
-            <span class="label">new cases Today : </span>
+            <span class="label">New cases Today : </span>
             <span class="counter">${data.new_cases}</span>
         </div>
     </div>`;
@@ -135,7 +142,6 @@ function addCard(data,pin){
             })
         }
     })
-
     const cards=cardContainer.querySelectorAll(".card");
     let delay=0;
      cards.forEach(card=>{
