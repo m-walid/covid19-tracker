@@ -231,6 +231,7 @@ function searchBarAnimation(){
                 search.value=country.join("");
                 if(i<=0){
                     clearInterval(backward);
+                    search.style.color="black";
                 } 
                 i--;
             },400)
