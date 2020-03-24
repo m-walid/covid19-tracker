@@ -116,11 +116,13 @@ h2{
 
   }
   .site-settings a{
-      text-decoration: underline;
-      color: #6c4fec;
+      color: #3f88aa;
+      font-size: 0.8em;
+
   }
   .site-settings a :visited{
-      color: #6c4fec;
+      color: #3f88aa;
+      
   }
 
   .lang , .darkmode{
