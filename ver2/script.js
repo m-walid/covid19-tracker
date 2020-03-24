@@ -38,7 +38,7 @@ function GetCountries(text,response){
     text=text.toLowerCase()
     
     cardContainer.innerHTML="";
-    var letters = /^[a-z]+$/;
+    var letters = /^[a-z]+/;
     if(text.match(letters)){ //checks that a string contains letter 
         let countries_data=response.countries_stat.filter(elm=>elm.country_name.toLowerCase().includes(text));
         
@@ -214,3 +214,28 @@ function addpinned(pinned,response){
 
 //     },6);
 // }
+
+
+
+function searchBarAnimation(){
+  
+    let country="Egypt".split("");
+    let i=0;
+    search.style.color="#616161"
+    const forward=setInterval(()=>{
+        search.value+=country[i++];
+        if(i>=country.length){
+            clearInterval(forward);
+            const backward=setInterval(()=>{
+                country.splice(i,1);
+                search.value=country.join("");
+                if(i<=0){
+                    clearInterval(backward);
+                } 
+                i--;
+            },400)
+        } 
+    },600)
+
+}
+setTimeout(searchBarAnimation,2000);
