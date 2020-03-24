@@ -227,20 +227,20 @@ function searchBarAnimation(){
   
     let country="Egypt".split("");
     let i=0;
-    search.style.color="#616161"
+    search.placeholder="";
     const forward=setInterval(()=>{
-        search.value+=country[i++];
+        search.placeholder+=country[i++];
         if(i>=country.length){
             clearInterval(forward);
             const backward=setInterval(()=>{
                 country.splice(i,1);
-                search.value=country.join("");
+                search.placeholder=country.join("");
                 if(i<=0){
                     clearInterval(backward);
-                    search.style.color="black";
+                    search.placeholder="Search Country";
                 } 
                 i--;
-            },400)
+            },350)
         } 
     },600)
 
