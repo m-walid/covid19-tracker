@@ -5,7 +5,7 @@
 
 
 
-const countries={
+const countries = {
     "China": "الصين",
     "Italy": "إيطاليا",
     "Iran": "إيران",
@@ -158,13 +158,13 @@ const countries={
     "Rwanda": "رواندا",
     "St. Barth": "سانت بارث",
     "St. Vincent Grenadines": "سانت فنسنت غرينادين",
-    "Suriname":"سورينام",
-    "Eswatini":"Eswatini",
-    "Togo":"توجو",
-    "U.S. Virgin Islands":"جزر فيرجن الأمريكية",
-    "Uzbekistan":"أوزبكستان",
-    "World":"في العالم"
-    }
+    "Suriname": "سورينام",
+    "Eswatini": "Eswatini",
+    "Togo": "توجو",
+    "U.S. Virgin Islands": "جزر فيرجن الأمريكية",
+    "Uzbekistan": "أوزبكستان",
+    "World": "في العالم"
+}
 
 
 
@@ -172,34 +172,34 @@ const countries={
 
 
 
-    const titleAr=document.querySelector(".country-title-ar");
-    const menu=document.querySelector(".select-country");
-    const mode=document.querySelector(".darkmode");
-    const globe=document.querySelector(".world");
-    const body=document.querySelector("body");
-    let flag=true;
+const titleAr = document.querySelector(".country-title-ar");
+const menu = document.querySelector(".select-country");
+const mode = document.querySelector(".darkmode");
+const globe = document.querySelector(".world");
+const body = document.querySelector("body");
+let flag = true;
 
-    const world_total={
-        cases:0,
-        total_recovered:0,
-        deaths:0,
-        active_cases:0
-    }
-
-
+const world_total = {
+    cases: 0,
+    total_recovered: 0,
+    deaths: 0,
+    active_cases: 0
+}
 
 
 
 
-if(localStorage.getItem("mode")=="Dark Mode"){
-    mode.innerHTML="Light Mode";
-    body.style.transitionDuration="0s";
+
+
+if (localStorage.getItem("mode") == "Dark Mode") {
+    mode.innerHTML = "Light Mode";
+    body.style.transitionDuration = "0s";
     setTheme("Black", "#c0c0c0", "#102666", "#3f3f3f");
 }
 
 
-function updateData(country){
-    
+function updateData(country) {
+
     var data = null;
     let resp;
     var xhr = new XMLHttpRequest();
@@ -207,49 +207,49 @@ function updateData(country){
 
     xhr.addEventListener("readystatechange", function () {
         if (this.readyState === this.DONE) {
-            resp=JSON.parse(this.responseText);
-            
-            if(flag){
+            resp = JSON.parse(this.responseText);
+
+            if (flag) {
                 fillMenu(resp);
-                flag=false;
+                flag = false;
             }
-            if(country=="World"){
-                countryData=world_total;
+            if (country == "World") {
+                countryData = world_total;
             }
-            else{
-                countryData =resp['countries_stat'].find(elm=> elm.country_name==country);
+            else {
+                countryData = resp['countries_stat'].find(elm => elm.country_name == country);
 
             }
 
             // console.log(countryData)
 
-            const counters=document.querySelectorAll(".counter");
-            counters.forEach(counter=>{
-                counter.innerHTML=0;
+            const counters = document.querySelectorAll(".counter");
+            counters.forEach(counter => {
+                counter.innerHTML = 0;
             })
             counters.forEach(counter => {
-                
-                const updateCounter= () =>{
 
-                    let target=removeComma(String(countryData[counter.id]));
-                    const count=+counter.innerText;
+                const updateCounter = () => {
+
+                    let target = removeComma(String(countryData[counter.id]));
+                    const count = +counter.innerText;
                     let inc;
-                    if(target<100) inc=1;
-                    else inc=Math.floor(target/100);
-            
-                    if(count< target){
-                        counter.innerText=count+inc;
-                        setTimeout(updateCounter,10);
+                    if (target < 100) inc = 1;
+                    else inc = Math.floor(target / 100);
+
+                    if (count < target) {
+                        counter.innerText = count + inc;
+                        setTimeout(updateCounter, 10);
                     }
-                    else{
-                        counter.innerText=target;
+                    else {
+                        counter.innerText = target;
 
                     }
                 }
-            
+
                 updateCounter();
             });
-            
+
 
         }
     });
@@ -262,111 +262,111 @@ function updateData(country){
 
 
 
-function fillMenu(data){
-    let options=[];
+function fillMenu(data) {
+    let options = [];
     //console.log(data.countries_stat.length)
-    data.countries_stat.forEach(elm=>{
-        
+    data.countries_stat.forEach(elm => {
+
         // if( removeComma(elm.cases)<=50){
         //     console.log("zoz")
         // }
 
         options.push(elm.country_name);
-        world_total.cases+=removeComma(elm.cases);
-        world_total.total_recovered+=removeComma(elm.total_recovered);
-        world_total.deaths+=removeComma(elm.deaths);
-        world_total.active_cases+=removeComma(elm.active_cases);
+        world_total.cases += removeComma(elm.cases);
+        world_total.total_recovered += removeComma(elm.total_recovered);
+        world_total.deaths += removeComma(elm.deaths);
+        world_total.active_cases += removeComma(elm.active_cases);
     });
 
 
     options.sort();
     // options.splice(options.indexOf("CAR"),1);
-    options.splice(0,0,"World");
-    options.forEach(elm =>{
-        const option=document.createElement("option");
-        option.innerHTML=elm;
+    options.splice(0, 0, "World");
+    options.forEach(elm => {
+        const option = document.createElement("option");
+        option.innerHTML = elm;
         if (option.text == 'Egypt') {
             option.setAttribute('selected', true);
         }
-        option.value=elm;
+        option.value = elm;
         menu.appendChild(option);
     })
-    
+
 }
 
 
-function updateHeader(country){
+function updateHeader(country) {
 
-    h1= countries[country];     
-    titleAr.innerHTML=h1;
-    let opacity=0
-    titleAr.style.opacity=""+opacity;
-    const h1Animation= setInterval(()=>{
-    if(opacity>=1) clearInterval(h1Animation);
-    opacity+=0.01;
-    titleAr.style.opacity=""+opacity;
-   },5);
-    
+    h1 = countries[country];
+    titleAr.innerHTML = h1;
+    let opacity = 0
+    titleAr.style.opacity = "" + opacity;
+    const h1Animation = setInterval(() => {
+        if (opacity >= 1) clearInterval(h1Animation);
+        opacity += 0.01;
+        titleAr.style.opacity = "" + opacity;
+    }, 5);
+
 }
 
 updateData("Egypt");
 updateHeader("Egypt")
 
-let oldValue="Egypt";
-menu.addEventListener('change',()=>{
-if(oldValue!=menu.value){
-    updateData(menu.value);
-    oldValue=menu.value;
-   updateHeader(menu.value);
-}
+let oldValue = "Egypt";
+menu.addEventListener('change', () => {
+    if (oldValue != menu.value) {
+        updateData(menu.value);
+        oldValue = menu.value;
+        updateHeader(menu.value);
+    }
 
- });
-
-
+});
 
 
 
-function removeComma(target){
-    target=target.replace(/,/g,"");
-    target=+target;
+
+
+function removeComma(target) {
+    target = target.replace(/,/g, "");
+    target = +target;
     return target;
 }
 
 
-globe.addEventListener("click",()=>{
+globe.addEventListener("click", () => {
     updateData("World");
     updateHeader("World");
-    menu.value="World";
-    oldValue="World";
+    menu.value = "World";
+    oldValue = "World";
 })
 
 
 
 
-function setTheme(bg, font, btBg, btBr){
-        body.style.backgroundColor=bg;
-        body.style.color=font;
-        menu.style.backgroundColor=btBg;
-        menu.style.color=font
-        menu.style.borderColor=btBr;
-        document.querySelectorAll(".bt").forEach(elm=>{
-            // elm.style.color=bg;
-            elm.style.backgroundColor=btBg
-            elm.style.borderColor=btBr
-        })
+function setTheme(bg, font, btBg, btBr) {
+    body.style.backgroundColor = bg;
+    body.style.color = font;
+    menu.style.backgroundColor = btBg;
+    menu.style.color = font
+    menu.style.borderColor = btBr;
+    document.querySelectorAll(".bt").forEach(elm => {
+        // elm.style.color=bg;
+        elm.style.backgroundColor = btBg
+        elm.style.borderColor = btBr
+    })
 }
 
 
-mode.addEventListener("click", ()=>{
-    body.style.transitionDuration="0.7s";
-    if(mode.innerText=="Dark Mode"){
-        mode.innerText="Light Mode";
+mode.addEventListener("click", () => {
+    body.style.transitionDuration = "0.7s";
+    if (mode.innerText == "Dark Mode") {
+        mode.innerText = "Light Mode";
         setTheme("Black", "#c0c0c0", "#102666", "#3f3f3f");
-        localStorage.setItem("mode","Dark Mode");
+        localStorage.setItem("mode", "Dark Mode");
     }
-    else{
-        mode.innerText="Dark Mode";
-      setTheme("White", "Black", "#e5e6e9", "Black");
-      localStorage.removeItem("mode");
+    else {
+        mode.innerText = "Dark Mode";
+        setTheme("White", "Black", "#e5e6e9", "Black");
+        localStorage.removeItem("mode");
     }
 })

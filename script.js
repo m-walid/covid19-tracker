@@ -1,5 +1,5 @@
 const search = document.querySelector(".search input");
-const cardContainer=document.querySelector(".card-container");
+const cardContainer = document.querySelector(".card-container");
 
 
 var data = null;
@@ -8,10 +8,10 @@ var xhr = new XMLHttpRequest();
 xhr.withCredentials = true;
 
 xhr.addEventListener("readystatechange", function () {
-	if (this.readyState === this.DONE) {
-        const response=JSON.parse(this.responseText);
-       main(response);
-	}
+    if (this.readyState === this.DONE) {
+        const response = JSON.parse(this.responseText);
+        main(response);
+    }
 });
 
 xhr.open("GET", "https://coronavirus-monitor.p.rapidapi.com/coronavirus/cases_by_country.php");
@@ -21,71 +21,71 @@ xhr.setRequestHeader("x-rapidapi-key", "8211a3a553mshcf22a909e374e45p1b7801jsn5b
 xhr.send(data);
 
 
-function main(response){
-    let flag1=false; //rapid reloading when pressing any key in empty search bar
-    const WorldStat=getWorldStat(response.countries_stat)
-    
+function main(response) {
+    let flag1 = false; //rapid reloading when pressing any key in empty search bar
+    const WorldStat = getWorldStat(response.countries_stat)
+
     response.countries_stat.push(WorldStat);
-    
-    addCard(WorldStat,"disabled")
+
+    addCard(WorldStat, "disabled")
     addpinned(localStorage.getItem("pinned"))
 
 
-    search.addEventListener("keyup",(e)=>{
-            GetCountries(search.value);
+    search.addEventListener("keyup", (e) => {
+        GetCountries(search.value);
     });
 
 
 
 
 
-    function GetCountries(text){
-        text=text.toLowerCase()
-        
-        
+    function GetCountries(text) {
+        text = text.toLowerCase()
+
+
         var letters = /^[a-z]+/;
-        if(text.match(letters)){ //checks that a string contains letter 
-            cardContainer.innerHTML="";
-            let countries_data=response.countries_stat.filter(elm=>elm.country_name.toLowerCase().includes(text));
-            
-            let max= countries_data.length>10 ? 10 :countries_data.length ;
-            let i=0
-            for(let i=0; i<max; i++){
-                addCard(countries_data[i],false); //displays only 10 results
-            } 
-    
-            
-              flag1=true;  
-    
+        if (text.match(letters)) { //checks that a string contains letter 
+            cardContainer.innerHTML = "";
+            let countries_data = response.countries_stat.filter(elm => elm.country_name.toLowerCase().includes(text));
+
+            let max = countries_data.length > 10 ? 10 : countries_data.length;
+            let i = 0
+            for (let i = 0; i < max; i++) {
+                addCard(countries_data[i], false); //displays only 10 results
+            }
+
+
+            flag1 = true;
+
             // countries_data.forEach(element => {
             //     addCard(element,false);
             // });
         }
-        else if(flag1) {
+        else if (flag1) {
             updateHome();
-            flag1=false;
+            flag1 = false;
         }
-        
+
     }
-    
-    
-    
-    
-    
-    function updateHome(){
-        cardContainer.innerHTML="";
-        addCard(WorldStat,"disabled")
+
+
+
+
+
+    function updateHome() {
+        cardContainer.innerHTML = "";
+        addCard(WorldStat, "disabled")
         addpinned(localStorage.getItem("pinned"))
     }
-    
-    
-    
-    
-    
-    
-    function addCard(data,pin){
-        const card=
-        `<div class="card" pin=${pin}>
+
+
+
+
+
+
+    function addCard(data, pin) {
+        const card =
+            `<div class="card" pin=${pin}>
             <div class="country">
                 ${data.country_name}
             </div>
@@ -111,62 +111,62 @@ function main(response){
                 <span class="counter">${data.new_cases}</span>
             </div>
         </div>`;
-    
-        cardContainer.innerHTML+=card;
-        
+
+        cardContainer.innerHTML += card;
+
         AddpinsClickEvent();
-        
-        const cards=cardContainer.querySelectorAll(".card");
-        let delay=0;
-         cards.forEach(card=>{
-            card.style.animationDelay=delay+"ms";
-            delay+=100;
-    });
+
+        const cards = cardContainer.querySelectorAll(".card");
+        let delay = 0;
+        cards.forEach(card => {
+            card.style.animationDelay = delay + "ms";
+            delay += 100;
+        });
     }
-    
 
 
-    function AddpinsClickEvent(){
+
+    function AddpinsClickEvent() {
 
 
-        const pins=cardContainer.querySelectorAll(".card .fa-thumbtack")
-        pins.forEach(pin=>{
-            
-            if(pin.parentElement.getAttribute("pin")=="disabled"){
-                pin.style.display="none";
+        const pins = cardContainer.querySelectorAll(".card .fa-thumbtack")
+        pins.forEach(pin => {
+
+            if (pin.parentElement.getAttribute("pin") == "disabled") {
+                pin.style.display = "none";
             }
-            else{
-                if(pin.parentElement.getAttribute("pin")=="true"){
-                    pin.style.color="#3f3f3f";
+            else {
+                if (pin.parentElement.getAttribute("pin") == "true") {
+                    pin.style.color = "#3f3f3f";
                 }
-                pin.addEventListener('click',()=>{
-                    let pinCountry=pin.parentElement.querySelector(".country");
-                    let pinned=[];
-                    if(localStorage.getItem("pinned")!=null && localStorage.getItem("pinned")!=""){
-                        pinned=localStorage.getItem("pinned").split(",")
+                pin.addEventListener('click', () => {
+                    let pinCountry = pin.parentElement.querySelector(".country");
+                    let pinned = [];
+                    if (localStorage.getItem("pinned") != null && localStorage.getItem("pinned") != "") {
+                        pinned = localStorage.getItem("pinned").split(",")
                     }
-    
-                    if(pin.parentElement.getAttribute("pin")=="false" && !pinned.includes(pinCountry.innerText)){
-                        pin.parentElement.setAttribute("pin",true);
+
+                    if (pin.parentElement.getAttribute("pin") == "false" && !pinned.includes(pinCountry.innerText)) {
+                        pin.parentElement.setAttribute("pin", true);
                         pinned.push(pinCountry.innerText);
                         localStorage.setItem("pinned", pinned.join(","));
-                        pin.style.color="#3f3f3f";
-                        
-                        search.value="";
-                        setTimeout(updateHome,400);
-                            
-                        
+                        pin.style.color = "#3f3f3f";
+
+                        search.value = "";
+                        setTimeout(updateHome, 400);
+
+
                     }
-                    else if(pin.parentElement.getAttribute("pin")=="true"){
-                        pin.parentElement.setAttribute("pin",false);
-                        pinned.splice(pinned.indexOf(pinCountry.innerText),1);
+                    else if (pin.parentElement.getAttribute("pin") == "true") {
+                        pin.parentElement.setAttribute("pin", false);
+                        pinned.splice(pinned.indexOf(pinCountry.innerText), 1);
                         localStorage.setItem("pinned", pinned.join(","));
-                        pin.style.color="white";
-    
-    
-    
-                        setTimeout(updateHome,400);
-    
+                        pin.style.color = "white";
+
+
+
+                        setTimeout(updateHome, 400);
+
                     }
                 })
             }
@@ -181,99 +181,99 @@ function main(response){
 
 
     }
-    
-    function addComma(num){
+
+    function addComma(num) {
         //console.log(num)
-        let numStr="";
-        let i=1;
-        while(num){
-            numStr+=num%10;
-            num=Math.floor(num/10);
-            if(i%3==0 && num)numStr+=",";
+        let numStr = "";
+        let i = 1;
+        while (num) {
+            numStr += num % 10;
+            num = Math.floor(num / 10);
+            if (i % 3 == 0 && num) numStr += ",";
             i++;
         }
         return numStr.split("").reverse().join("");
     }
-    
-    
 
 
 
-    function getWorldStat(countries){
-        const WORLD={
-            country_name:"World",
+
+
+    function getWorldStat(countries) {
+        const WORLD = {
+            country_name: "World",
             cases: 0,
             total_recovered: 0,
             deaths: 0,
             active_cases: 0,
             new_cases: 0
         }
-    
-        countries.forEach(country=>{
-            WORLD.cases+=+country.cases.replace(",","");
-            WORLD.total_recovered+=+country.total_recovered.replace(",","");
-            WORLD.deaths+=+country.deaths.replace(",","");
-            WORLD.active_cases+=+country.active_cases.replace(",","");
-            WORLD.new_cases+=+country.new_cases.replace(",","");
+
+        countries.forEach(country => {
+            WORLD.cases += +country.cases.replace(",", "");
+            WORLD.total_recovered += +country.total_recovered.replace(",", "");
+            WORLD.deaths += +country.deaths.replace(",", "");
+            WORLD.active_cases += +country.active_cases.replace(",", "");
+            WORLD.new_cases += +country.new_cases.replace(",", "");
         })
-    
-    
-            WORLD.cases=addComma(WORLD.cases);
-            WORLD.total_recovered=addComma(WORLD.total_recovered);
-            WORLD.deaths=addComma(WORLD.deaths);
-            WORLD.active_cases=addComma(WORLD.active_cases);
-            WORLD.new_cases=addComma(WORLD.new_cases);
-           
-        
-            return WORLD;
+
+
+        WORLD.cases = addComma(WORLD.cases);
+        WORLD.total_recovered = addComma(WORLD.total_recovered);
+        WORLD.deaths = addComma(WORLD.deaths);
+        WORLD.active_cases = addComma(WORLD.active_cases);
+        WORLD.new_cases = addComma(WORLD.new_cases);
+
+
+        return WORLD;
     }
-    
-    
 
 
 
 
 
 
-    function addpinned(pinned){
-        if(pinned!=null && pinned.length!=0){
-            pinned=pinned.split(",");
+
+
+    function addpinned(pinned) {
+        if (pinned != null && pinned.length != 0) {
+            pinned = pinned.split(",");
             pinned.forEach(country => {
-                let country_data=response.countries_stat.find(elm => elm.country_name==country);
-                    addCard(country_data,true);
+                let country_data = response.countries_stat.find(elm => elm.country_name == country);
+                addCard(country_data, true);
             })
         }
     }
-    
-
-    
 
 
 
 
-    function searchBarAnimation(){
-      
-        let country="Egypt".split("");
-        let i=0;
-        search.placeholder="";
-        const forward=setInterval(()=>{
-            search.placeholder+=country[i++];
-            if(i>=country.length){
+
+
+
+    function searchBarAnimation() {
+
+        let country = "Egypt".split("");
+        let i = 0;
+        search.placeholder = "";
+        const forward = setInterval(() => {
+            search.placeholder += country[i++];
+            if (i >= country.length) {
                 clearInterval(forward);
-                const backward=setInterval(()=>{
-                    country.splice(i,1);
-                    search.placeholder=country.join("");
-                    if(i<=0){
+                const backward = setInterval(() => {
+                    country.splice(i, 1);
+                    search.placeholder = country.join("");
+                    if (i <= 0) {
                         clearInterval(backward);
-                        search.placeholder="Search Country";
-                    } 
+                        search.placeholder = "Search Country";
+                    }
                     i--;
-                },350)
-            } 
-        },600)
-    
+                }, 350)
+            }
+        }, 600)
+
     }
-    setTimeout(searchBarAnimation,2000);
+    setTimeout(searchBarAnimation, 2000);
 
 
 }
