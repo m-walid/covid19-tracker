@@ -1,72 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-75771972-3"></script>
-    <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-75771972-3');
-    </script>
-
-    <script src="https://kit.fontawesome.com/26894e746a.js" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css?family=Tajawal&display=swap" rel="stylesheet">
+    <title>Covid-19 Tracker</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <title class="country-title-eng">COVID-19 Tracker</title>
-    <meta name="description" content="تتبع حالات كورونا في جميع انحاء العالم">
+    
+    <meta name="description" content="Track Corona virus (COVID-19) cases all over the world updated every hour">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+
+
+
+     <!-- Global site tag (gtag.js) - Google Analytics -->
+     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-75771972-3"></script>
+     <script>
+     window.dataLayer = window.dataLayer || [];
+     function gtag(){dataLayer.push(arguments);}
+     gtag('js', new Date());
+ 
+     gtag('config', 'UA-75771972-3');
+     </script>
 </head>
 <body>
     <div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0"></script>
-
-
-
-
-
-
-
-    <div class="header">
-        <div class="site-settings">
-            <a class="ver" href="ver2/index.html">check version 2 !</a>
-            <div class="bt darkmode">Dark Mode</div>
-        </div>
-        <h1 class="country-title-ar">مصر</h1>
-        <div class="change-country">
-            <select class="select-country" >
-            </select>
-            <div class="bt world ">
-                <i class="fas fa-globe-europe"></i>
-                <p>world</p>
-            </div>
+    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0"></script>
+    <header>
+        <a href="index.html">COVID-19 Tracker</a>
+    </header>
+    <div class="container">
+        <div class="search">
+            <input type="text" placeholder=" Search Country">
+            <!-- <i class="fas fa-search"></i> -->
+        </div>  
+        <div class="card-container">
+           
         </div>
     </div>
- <div class="container">
-        <div class="card">
-            <h2 >عدد الحالات</h2>
-            <span class="counter" id="cases">0</span>
-        </div>
-        <div class="card">
-            <h2 >عدد المتعافين</h2>
-            <span class="counter" id="total_recovered">0</span>
-        </div>
-        <div class="card">
-            <h2 >عدد الوفيات</h2>
-            <span class="counter" id="deaths">0</span>
-        </div>
-        
-        <div class="card">
-            <h2 >عدد الحالات النشطة</h2>
-            <span class="counter" id="active_cases">0</span>
-        </div>
-    </div>
-
-    <div class="footer">
+    <footer>
         <div class="share-social">
             <div class="fb-share-button" data-href="https://www.covideg.xyz/" data-layout="button_count" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.covideg.xyz%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>       
 
@@ -75,13 +47,17 @@
                 <span>Share</span>
             </a>
         </div>
-         <div> source: <a href="https://rapidapi.com/astsiatsko/api/coronavirus-monitor/details" target="_blank">coronavirus-monitor-api</a></div> 
-        
-    </div>
-    <div class="disclaimer">
-        Disclaimer: The information contained on this website is for general information purposes only. You should not rely upon the information on the website as a basis for making any decisions.
-    </div>
-   
+        <a class="ver1" href="/ver1">check version 1 (Arabic)</a>
+        <div class="source"> source: <a href="https://rapidapi.com/astsiatsko/api/coronavirus-monitor/details" target="_blank">coronavirus-monitor-api</a></div> 
+        <div class="disclaimer">
+            Disclaimer: The information contained on this website is for general information purposes only. You should not rely upon the information on the website as a basis for making any decisions.
+        </div>
+    </footer>
+
+
+
     <script src="script.js"></script>
+    <script src="https://kit.fontawesome.com/26894e746a.js" crossorigin="anonymous"></script>
+    
 </body>
 </html>

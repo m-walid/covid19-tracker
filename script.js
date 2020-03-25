@@ -1,371 +1,283 @@
+const search = document.querySelector(".search input");
+const cardContainer=document.querySelector(".card-container");
 
 
+var data = null;
+
+var xhr = new XMLHttpRequest();
+xhr.withCredentials = true;
+
+xhr.addEventListener("readystatechange", function () {
+	if (this.readyState === this.DONE) {
+        const response=JSON.parse(this.responseText);
+       main(response);
+	}
+});
+
+xhr.open("GET", "https://coronavirus-monitor.p.rapidapi.com/coronavirus/cases_by_country.php");
+xhr.setRequestHeader("x-rapidapi-host", "coronavirus-monitor.p.rapidapi.com");
+xhr.setRequestHeader("x-rapidapi-key", "8211a3a553mshcf22a909e374e45p1b7801jsn5bafc2d59d9c");
+
+xhr.send(data);
 
 
-
-
-
-const countries={
-    "China": "الصين",
-    "Italy": "إيطاليا",
-    "Iran": "إيران",
-    "S. Korea": "كوريا الجنوبية",
-    "Spain": "إسبانيا",
-    "Germany": "ألمانيا",
-    "France": "فرنسا",
-    "USA": "الولايات المتحدة الأمريكية",
-    "Switzerland": "سويسرا",
-    "UK": "المملكة المتحدة",
-    "Norway": "النرويج",
-    "Netherlands": "هولندا",
-    "Sweden": "السويد",
-    "Belgium": "بلجيكا",
-    "Denmark": "الدنمارك",
-    "Austria": "النمسا",
-    "Japan": "اليابان",
-    "Diamond Princess": "الأميرة الماسية",
-    "Malaysia": "ماليزيا",
-    "Qatar": "دولة قطر",
-    "Australia": "أستراليا",
-    "Canada": "كندا",
-    "Portugal": "البرتغال",
-    "Finland": "فنلندا",
-    "Czechia": "تشيكيا",
-    "Greece": "اليونان",
-    "Singapore": "سنغافورة",
-    "Slovenia": "سلوفينيا",
-    "Bahrain": "البحرين",
-    "Israel": "إسرائيل",
-    "Iceland": "أيسلندا",
-    "Hong Kong": "هونج كونج",
-    "Philippines": "الفلبين",
-    "Romania": "رومانيا",
-    "Estonia": "إستونيا",
-    "Ireland": "أيرلندا",
-    "Brazil": "البرازيل",
-    "Poland": "بولندا",
-    "Indonesia": "إندونيسيا",
-    "Thailand": "تايلاند",
-    "Kuwait": "الكويت",
-    "Iraq": "العراق",
-    "Egypt": "مصر",
-    "India": "الهند",
-    "Saudi Arabia": "المملكة العربية السعودية",
-    "San Marino": "سان مارينو",
-    "Lebanon": "لبنان",
-    "UAE": "الإمارات العربية المتحدة",
-    "Russia": "روسيا",
-    "Chile": "تشيلي",
-    "Luxembourg": "لوكسمبورج",
-    "Taiwan": "تايوان",
-    "Vietnam": "فيتنام",
-    "Slovakia": "سلوفاكيا",
-    "Pakistan": "باكستان",
-    "Bulgaria": "بلغاريا",
-    "South Africa": "جنوب أفريقيا",
-    "Brunei": "بروناي",
-    "Croatia": "كرواتيا",
-    "Algeria": "الجزائر",
-    "Serbia": "صربيا",
-    "Argentina": "الأرجنتين",
-    "Panama": "بنما",
-    "Peru": "بيرو",
-    "Albania": "ألبانيا",
-    "Mexico": "المكسيك",
-    "Palestine": "فلسطين",
-    "Colombia": "كولومبيا",
-    "Georgia": "جورجيا",
-    "Hungary": "هنغاريا",
-    "Latvia": "لاتفيا",
-    "Ecuador": "إكوادور",
-    "Morocco": "المغرب",
-    "Belarus": "روسيا البيضاء",
-    "Costa Rica": "كوستا ريكا",
-    "Cyprus": "قبرص",
-    "Senegal": "السنغال",
-    "Azerbaijan": "أذربيجان",
-    "Armenia": "أرمينيا",
-    "Moldova": "مولدوفا",
-    "Oman": "سلطنة عمان",
-    "Bosnia and Herzegovina": "البوسنة والهرسك",
-    "Malta": "مالطا",
-    "North Macedonia": "مقدونيا الشمالية",
-    "Tunisia": "تونس",
-    "Afghanistan": "أفغانستان",
-    "Maldives": "جزر المالديف",
-    "Lithuania": "ليتوانيا",
-    "Dominican Republic": "جمهورية الدومنيكان",
-    "Sri Lanka": "سيريلانكا",
-    "Faeroe Islands": "جزر فارو",
-    "Macao": "ماكاو",
-    "Bolivia": "بوليفيا",
-    "Martinique": "مارتينيك",
-    "Venezuela": "فنزويلا",
-    "Kazakhstan": "كازاخستان",
-    "Jordan": "الأردن",
-    "New Zealand": "نيوزيلاندا",
-    "Jamaica": "جامايكا",
-    "Cambodia": "كمبوديا",
-    "French Guiana": "غيانا الفرنسية",
-    "Liechtenstein": "ليختنشتاين",
-    "Paraguay": "باراغواي",
-    "Réunion": "جمع شمل",
-    "Ghana": "غانا",
-    "Turkey": "ديك رومي",
-    "Uruguay": "أوروغواي",
-    "Bangladesh": "بنغلاديش",
-    "Guyana": "غيانا",
-    "Ivory Coast": "ساحل العاج",
-    "Cuba": "كوبا",
-    "Puerto Rico": "بورتوريكو",
-    "Ukraine": "أوكرانيا",
-    "Burkina Faso": "بوركينا فاسو",
-    "Channel Islands": "جزر القناة",
-    "French Polynesia": "بولينيزيا الفرنسية",
-    "Guadeloupe": "غواديلوب",
-    "Guam": "غوام",
-    "Honduras": "هندوراس",
-    "Kenya": "كينيا",
-    "Monaco": "موناكو",
-    "Nigeria": "نيجيريا",
-    "Aruba": "أروبا",
-    "Cameroon": "الكاميرون",
-    "Curaçao": "كوراساو",
-    "DRC": "جمهورية الكونغو الديمقراطية",
-    "Namibia": "ناميبيا",
-    "Saint Lucia": "القديسة لوسيا",
-    "Saint Martin": "القديس مارتن",
-    "Seychelles": "سيشيل",
-    "Trinidad and Tobago": "ترينداد وتوباغو",
-    "Sudan": "السودان",
-    "Andorra": "أندورا",
-    "Nepal": "نيبال",
-    "Antigua and Barbuda": "أنتيغوا وبربودا",
-    "Bhutan": "بوتان",
-    "Cayman Islands": "جزر كايمان",
-    "CAR": "جمهورية افريقيا الوسطى",
-    "Congo": "الكونغو",
-    "Equatorial Guinea": "غينيا الإستوائية",
-    "Ethiopia": "أثيوبيا",
-    "Gabon": "الغابون",
-    "Gibraltar": "جبل طارق",
-    "Guatemala": "غواتيمالا",
-    "Guinea": "غينيا",
-    "Vatican City": "مدينة الفاتيكان",
-    "Mauritania": "موريتانيا",
-    "Mayotte": "مايوت",
-    "Mongolia": "منغوليا",
-    "Rwanda": "رواندا",
-    "St. Barth": "سانت بارث",
-    "St. Vincent Grenadines": "سانت فنسنت غرينادين",
-    "Suriname":"سورينام",
-    "Eswatini":"Eswatini",
-    "Togo":"توجو",
-    "U.S. Virgin Islands":"جزر فيرجن الأمريكية",
-    "Uzbekistan":"أوزبكستان",
-    "World":"في العالم"
-    }
-
-
-
-
-
-
-
-    const titleAr=document.querySelector(".country-title-ar");
-    const menu=document.querySelector(".select-country");
-    const mode=document.querySelector(".darkmode");
-    const globe=document.querySelector(".world");
-    const body=document.querySelector("body");
-    let flag=true;
-
-    const world_total={
-        cases:0,
-        total_recovered:0,
-        deaths:0,
-        active_cases:0
-    }
-
-
-
-
-
-
-if(localStorage.getItem("mode")=="Dark Mode"){
-    mode.innerHTML="Light Mode";
-    body.style.transitionDuration="0s";
-    setTheme("Black", "#c0c0c0", "#102666", "#b4b4b4");
-}
-
-
-function updateData(country){
+function main(response){
+    let flag1=false; //rapid reloading when pressing any key in empty search bar
+    const WorldStat=getWorldStat(response.countries_stat)
     
-    var data = null;
-    let resp;
-    var xhr = new XMLHttpRequest();
-    xhr.withCredentials = true;
+    response.countries_stat.push(WorldStat);
+    
+    addCard(WorldStat,"disabled")
+    addpinned(localStorage.getItem("pinned"))
 
-    xhr.addEventListener("readystatechange", function () {
-        if (this.readyState === this.DONE) {
-            resp=JSON.parse(this.responseText);
+
+    search.addEventListener("keyup",(e)=>{
+            GetCountries(search.value);
+    });
+
+
+
+
+
+    function GetCountries(text){
+        text=text.toLowerCase()
+        
+        
+        var letters = /^[a-z]+/;
+        if(text.match(letters)){ //checks that a string contains letter 
+            cardContainer.innerHTML="";
+            let countries_data=response.countries_stat.filter(elm=>elm.country_name.toLowerCase().includes(text));
             
-            if(flag){
-                fillMenu(resp);
-                flag=false;
-            }
-            if(country=="World"){
-                countryData=world_total;
+            let max= countries_data.length>10 ? 10 :countries_data.length ;
+            let i=0
+            for(let i=0; i<max; i++){
+                addCard(countries_data[i],false); //displays only 10 results
+            } 
+    
+            
+              flag1=true;  
+    
+            // countries_data.forEach(element => {
+            //     addCard(element,false);
+            // });
+        }
+        else if(flag1) {
+            updateHome();
+            flag1=false;
+        }
+        
+    }
+    
+    
+    
+    
+    
+    function updateHome(){
+        cardContainer.innerHTML="";
+        addCard(WorldStat,"disabled")
+        addpinned(localStorage.getItem("pinned"))
+    }
+    
+    
+    
+    
+    
+    
+    function addCard(data,pin){
+        const card=
+        `<div class="card" pin=${pin}>
+            <div class="country">
+                ${data.country_name}
+            </div>
+            <i class="fas fa-thumbtack"></i>
+            <div class="card-item cases">
+                <span class="label">All cases : </span>
+                <span class="counter">${data.cases}</span>
+            </div>
+            <div class="card-item total_recovered">
+                <span class="label">Recovered : </span>
+                <span class="counter">${data.total_recovered}</span>
+            </div>
+            <div class="card-item deaths">
+                <span class="label">Deaths : </span>
+                <span class="counter">${data.deaths}</span>
+            </div>
+            <div class="card-item active_cases">
+                <span class="label">Active cases : </span>
+                <span class="counter">${data.active_cases}</span>
+            </div>
+            <div class="card-item new_cases">
+                <span class="label">New cases Today : </span>
+                <span class="counter">${data.new_cases}</span>
+            </div>
+        </div>`;
+    
+        cardContainer.innerHTML+=card;
+        
+        AddpinsClickEvent();
+        
+        const cards=cardContainer.querySelectorAll(".card");
+        let delay=0;
+         cards.forEach(card=>{
+            card.style.animationDelay=delay+"ms";
+            delay+=100;
+    });
+    }
+    
+
+
+    function AddpinsClickEvent(){
+
+
+        const pins=cardContainer.querySelectorAll(".card .fa-thumbtack")
+        pins.forEach(pin=>{
+            
+            if(pin.parentElement.getAttribute("pin")=="disabled"){
+                pin.style.display="none";
             }
             else{
-                countryData =resp['countries_stat'].find(elm=> elm.country_name==country);
-
-            }
-
-            // console.log(countryData)
-
-            const counters=document.querySelectorAll(".counter");
-            counters.forEach(counter=>{
-                counter.innerHTML=0;
-            })
-            counters.forEach(counter => {
-                
-                const updateCounter= () =>{
-
-                    let target=removeComma(String(countryData[counter.id]));
-                    const count=+counter.innerText;
-                    let inc;
-                    if(target<100) inc=1;
-                    else inc=Math.floor(target/100);
-            
-                    if(count< target){
-                        counter.innerText=count+inc;
-                        setTimeout(updateCounter,10);
-                    }
-                    else{
-                        counter.innerText=target;
-
-                    }
+                if(pin.parentElement.getAttribute("pin")=="true"){
+                    pin.style.color="#3f3f3f";
                 }
-            
-                updateCounter();
-            });
-            
-
-        }
-    });
-
-    xhr.open("GET", "https://coronavirus-monitor.p.rapidapi.com/coronavirus/cases_by_country.php");
-    xhr.setRequestHeader("x-rapidapi-host", "coronavirus-monitor.p.rapidapi.com");
-    xhr.setRequestHeader("x-rapidapi-key", "8211a3a553mshcf22a909e374e45p1b7801jsn5bafc2d59d9c");
-    xhr.send(data);
-}
-
-
-
-function fillMenu(data){
-    let options=[];
-    //console.log(data.countries_stat.length)
-    data.countries_stat.forEach(elm=>{
-        
-        // if( removeComma(elm.cases)<=50){
-        //     console.log("zoz")
-        // }
-
-        options.push(elm.country_name);
-        world_total.cases+=removeComma(elm.cases);
-        world_total.total_recovered+=removeComma(elm.total_recovered);
-        world_total.deaths+=removeComma(elm.deaths);
-        world_total.active_cases+=removeComma(elm.active_cases);
-    });
-
-
-    options.sort();
-    // options.splice(options.indexOf("CAR"),1);
-    options.splice(0,0,"World");
-    options.forEach(elm =>{
-        const option=document.createElement("option");
-        option.innerHTML=elm;
-        if (option.text == 'Egypt') {
-            option.setAttribute('selected', true);
-        }
-        option.value=elm;
-        menu.appendChild(option);
-    })
+                pin.addEventListener('click',()=>{
+                    let pinCountry=pin.parentElement.querySelector(".country");
+                    let pinned=[];
+                    if(localStorage.getItem("pinned")!=null && localStorage.getItem("pinned")!=""){
+                        pinned=localStorage.getItem("pinned").split(",")
+                    }
     
-}
-
-
-function updateHeader(country){
-
-    h1= countries[country];     
-    titleAr.innerHTML=h1;
-    let opacity=0
-    titleAr.style.opacity=""+opacity;
-    const h1Animation= setInterval(()=>{
-    if(opacity>=1) clearInterval(h1Animation);
-    opacity+=0.01;
-    titleAr.style.opacity=""+opacity;
-   },5);
+                    if(pin.parentElement.getAttribute("pin")=="false" && !pinned.includes(pinCountry.innerText)){
+                        pin.parentElement.setAttribute("pin",true);
+                        pinned.push(pinCountry.innerText);
+                        localStorage.setItem("pinned", pinned.join(","));
+                        pin.style.color="#3f3f3f";
+                        
+                        search.value="";
+                        setTimeout(updateHome,400);
+                            
+                        
+                    }
+                    else if(pin.parentElement.getAttribute("pin")=="true"){
+                        pin.parentElement.setAttribute("pin",false);
+                        pinned.splice(pinned.indexOf(pinCountry.innerText),1);
+                        localStorage.setItem("pinned", pinned.join(","));
+                        pin.style.color="white";
     
-}
-
-updateData("Egypt");
-updateHeader("Egypt")
-
-let oldValue="Egypt";
-menu.addEventListener('change',()=>{
-if(oldValue!=menu.value){
-    updateData(menu.value);
-    oldValue=menu.value;
-   updateHeader(menu.value);
-}
-
- });
-
-
-
-
-
-function removeComma(target){
-    target=target.replace(/,/g,"");
-    target=+target;
-    return target;
-}
-
-
-globe.addEventListener("click",()=>{
-    updateData("World");
-    updateHeader("World");
-    menu.value="World";
-    oldValue="World";
-})
-
-
-
-
-function setTheme(bg, font, btBg, btBr){
-        body.style.backgroundColor=bg;
-        body.style.color=font;
-        menu.style.backgroundColor=btBg;
-        menu.style.color=font
-        document.querySelectorAll(".bt").forEach(elm=>{
-            // elm.style.color=bg;
-            elm.style.backgroundColor=btBg
-            elm.style.borderColor=btBr
+    
+    
+                        setTimeout(updateHome,400);
+    
+                    }
+                })
+            }
         })
+
+
+
+
+
+
+
+
+
+    }
+    
+    function addComma(num){
+        //console.log(num)
+        let numStr="";
+        let i=1;
+        while(num){
+            numStr+=num%10;
+            num=Math.floor(num/10);
+            if(i%3==0 && num)numStr+=",";
+            i++;
+        }
+        return numStr.split("").reverse().join("");
+    }
+    
+    
+
+
+
+    function getWorldStat(countries){
+        const WORLD={
+            country_name:"World",
+            cases: 0,
+            total_recovered: 0,
+            deaths: 0,
+            active_cases: 0,
+            new_cases: 0
+        }
+    
+        countries.forEach(country=>{
+            WORLD.cases+=+country.cases.replace(",","");
+            WORLD.total_recovered+=+country.total_recovered.replace(",","");
+            WORLD.deaths+=+country.deaths.replace(",","");
+            WORLD.active_cases+=+country.active_cases.replace(",","");
+            WORLD.new_cases+=+country.new_cases.replace(",","");
+        })
+    
+    
+            WORLD.cases=addComma(WORLD.cases);
+            WORLD.total_recovered=addComma(WORLD.total_recovered);
+            WORLD.deaths=addComma(WORLD.deaths);
+            WORLD.active_cases=addComma(WORLD.active_cases);
+            WORLD.new_cases=addComma(WORLD.new_cases);
+           
+        
+            return WORLD;
+    }
+    
+    
+
+
+
+
+
+
+    function addpinned(pinned){
+        if(pinned!=null && pinned.length!=0){
+            pinned=pinned.split(",");
+            pinned.forEach(country => {
+                let country_data=response.countries_stat.find(elm => elm.country_name==country);
+                    addCard(country_data,true);
+            })
+        }
+    }
+    
+
+    
+
+
+
+
+    function searchBarAnimation(){
+      
+        let country="Egypt".split("");
+        let i=0;
+        search.placeholder="";
+        const forward=setInterval(()=>{
+            search.placeholder+=country[i++];
+            if(i>=country.length){
+                clearInterval(forward);
+                const backward=setInterval(()=>{
+                    country.splice(i,1);
+                    search.placeholder=country.join("");
+                    if(i<=0){
+                        clearInterval(backward);
+                        search.placeholder="Search Country";
+                    } 
+                    i--;
+                },350)
+            } 
+        },600)
+    
+    }
+    setTimeout(searchBarAnimation,2000);
+
+
 }
 
 
-mode.addEventListener("click", ()=>{
-    body.style.transitionDuration="0.7s";
-    if(mode.innerText=="Dark Mode"){
-        mode.innerText="Light Mode";
-        setTheme("Black", "#c0c0c0", "#102666", "#b4b4b4");
-        localStorage.setItem("mode","Dark Mode");
-    }
-    else{
-        mode.innerText="Dark Mode";
-      setTheme("White", "Black", "#e5e6e9", "Black");
-      localStorage.removeItem("mode");
-    }
-})
+
+
