@@ -124,17 +124,17 @@ header > a{
 
 
 .pin-animation{
-    animation: pinAnimation 1.5s linear infinite ;
+    animation: pinAnimation .8s linear infinite ;
 }
 @keyframes pinAnimation{
     0%{
         top:10px;
     }
     25%{
-        top:8px;
+        top:7px;
     }
     75%{
-        top:12px;
+        top:13px;
     }
     100%{
         top:10px;
