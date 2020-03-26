@@ -24,7 +24,7 @@ xhr.send(data);
 function main(response) {
     let flag1 = false; //rapid reloading when pressing any key in empty search bar
 
-    if (localStorage.getItem("flag2") == null || localStorage.getItem("pinned") == null) {
+    if (localStorage.getItem("flag2") == null && localStorage.getItem("pinned") == null ) {
         localStorage.setItem("flag2", false); //flag to diplay hint to pin for first time users
     }
 
@@ -178,7 +178,7 @@ function main(response) {
                         pin.style.color = "white";
 
 
-
+                        search.value = "";
                         setTimeout(updateHome, 400);
 
                     }
