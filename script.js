@@ -24,7 +24,7 @@ xhr.send(data);
 function main(response) {
     let flag1 = false; //rapid reloading when pressing any key in empty search bar
 
-    if (localStorage.getItem("flag2") == null) {
+    if (localStorage.getItem("flag2") == null || localStorage.getItem("pinned") == null) {
         localStorage.setItem("flag2", false); //flag to diplay hint to pin for first time users
     }
 
@@ -141,7 +141,7 @@ function main(response) {
 
     function AddpinsClickEvent() {
 
-        localStorage.setItem("flag2", true);
+        
 
         let pinned = [];
         if (localStorage.getItem("pinned") != null && localStorage.getItem("pinned") != "") {
@@ -158,7 +158,7 @@ function main(response) {
                     pin.style.color = "#3f3f3f";
                 }
                 pin.addEventListener('click', () => {
-
+                    localStorage.setItem("flag2", true);
 
                     if (pin.parentElement.getAttribute("pin") == "false" && !pinned.includes(pinCountry.innerText)) {
                         pin.parentElement.setAttribute("pin", true);
