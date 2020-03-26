@@ -141,24 +141,24 @@ function main(response) {
 
     function AddpinsClickEvent() {
 
+        localStorage.setItem("flag2", true);
 
+        let pinned = [];
+        if (localStorage.getItem("pinned") != null && localStorage.getItem("pinned") != "") {
+            pinned = localStorage.getItem("pinned").split(",")
+        }
         const pins = cardContainer.querySelectorAll(".card > .fa-thumbtack")
         pins.forEach(pin => {
-
+            let pinCountry = pin.parentElement.querySelector(".country");
             if (pin.parentElement.getAttribute("pin") == "disabled") {
                 pin.style.display = "none";
             }
             else {
-                if (pin.parentElement.getAttribute("pin") == "true") {
+                if (pin.parentElement.getAttribute("pin") == "true" || pinned.includes(pinCountry.innerText)) {
                     pin.style.color = "#3f3f3f";
                 }
                 pin.addEventListener('click', () => {
-                    localStorage.setItem("flag2", true);
-                    let pinCountry = pin.parentElement.querySelector(".country");
-                    let pinned = [];
-                    if (localStorage.getItem("pinned") != null && localStorage.getItem("pinned") != "") {
-                        pinned = localStorage.getItem("pinned").split(",")
-                    }
+
 
                     if (pin.parentElement.getAttribute("pin") == "false" && !pinned.includes(pinCountry.innerText)) {
                         pin.parentElement.setAttribute("pin", true);
@@ -171,7 +171,7 @@ function main(response) {
 
 
                     }
-                    else if (pin.parentElement.getAttribute("pin") == "true") {
+                    else if (pin.parentElement.getAttribute("pin") == "true" || pinned.includes(pinCountry.innerText)) {
                         pin.parentElement.setAttribute("pin", false);
                         pinned.splice(pinned.indexOf(pinCountry.innerText), 1);
                         localStorage.setItem("pinned", pinned.join(","));
