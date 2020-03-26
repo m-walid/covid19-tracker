@@ -101,13 +101,45 @@ header > a{
     font-weight: bold;
 }
 
-.fa-thumbtack{
+.card >.fa-thumbtack{
     font-weight: bolder;
     position: absolute;
     top:10px;
     right: 10px;
+    transform: rotate(40deg);
     cursor: pointer;
     
+}
+
+.pin-span{
+    font-size: 0.6em;
+    margin:3px 0;
+}
+
+.pin-span >.fa-thumbtack{
+    margin: 0 3px;
+    transform: rotate(40deg);
+}
+
+
+
+.pin-animation{
+    animation: pinAnimation 1.5s linear infinite ;
+}
+@keyframes pinAnimation{
+    0%{
+        top:10px;
+    }
+    25%{
+        top:8px;
+    }
+    75%{
+        top:12px;
+    }
+    100%{
+        top:10px;
+    }
+
 }
 
 .card-item{

@@ -23,6 +23,11 @@ xhr.send(data);
 
 function main(response) {
     let flag1 = false; //rapid reloading when pressing any key in empty search bar
+
+    if (localStorage.getItem("flag2") == null) {
+        localStorage.setItem("flag2", false); //flag to diplay hint to pin for first time users
+    }
+
     const WorldStat = getWorldStat(response.countries_stat)
 
     response.countries_stat.push(WorldStat);
@@ -53,18 +58,26 @@ function main(response) {
             for (let i = 0; i < max; i++) {
                 addCard(countries_data[i], false); //displays only 10 results
             }
-
-
             flag1 = true;
 
-            // countries_data.forEach(element => {
-            //     addCard(element,false);
-            // });
+
+
+            if (localStorage.getItem("flag2") == "false") {
+                const firstCardPin = cardContainer.querySelector(".card >i");
+                firstCardPin.classList.add("pin-animation");
+                const pinSpan = document.createElement("span");
+                pinSpan.className = "pin-span";
+                pinSpan.innerHTML = `click <i class="fas fa-thumbtack"></i> to add country to home page `;
+                firstCardPin.parentElement.insertBefore(pinSpan, firstCardPin.nextElementSibling);
+            }
+
+
         }
         else if (flag1) {
             updateHome();
             flag1 = false;
         }
+
 
     }
 
@@ -129,7 +142,7 @@ function main(response) {
     function AddpinsClickEvent() {
 
 
-        const pins = cardContainer.querySelectorAll(".card .fa-thumbtack")
+        const pins = cardContainer.querySelectorAll(".card > .fa-thumbtack")
         pins.forEach(pin => {
 
             if (pin.parentElement.getAttribute("pin") == "disabled") {
@@ -140,6 +153,7 @@ function main(response) {
                     pin.style.color = "#3f3f3f";
                 }
                 pin.addEventListener('click', () => {
+                    localStorage.setItem("flag2", true);
                     let pinCountry = pin.parentElement.querySelector(".country");
                     let pinned = [];
                     if (localStorage.getItem("pinned") != null && localStorage.getItem("pinned") != "") {
