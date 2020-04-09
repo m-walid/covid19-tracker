@@ -10,6 +10,7 @@ xhr.withCredentials = true;
 xhr.addEventListener("readystatechange", function () {
     if (this.readyState === this.DONE) {
         const response = JSON.parse(this.responseText);
+        response.countries_stat.splice(0,7);
         main(response);
     }
 });
@@ -31,6 +32,7 @@ function main(response) {
     const WorldStat = getWorldStat(response.countries_stat)
 
     response.countries_stat.push(WorldStat);
+    console.log(response);
 
     addCard(WorldStat, "disabled")
     addpinned(localStorage.getItem("pinned"))
