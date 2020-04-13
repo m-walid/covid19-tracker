@@ -10,7 +10,7 @@ xhr.withCredentials = true;
 xhr.addEventListener("readystatechange", function () {
     if (this.readyState === this.DONE) {
         const response = JSON.parse(this.responseText);
-        console.log(response);
+        //console.log(response);
         response.countries_stat.splice(0,1);
         main(response);
     }
@@ -228,15 +228,17 @@ function main(response) {
 
         countries.forEach(country => {
             WORLD.cases += +country.cases.replace(",", "");
-            WORLD.total_recovered += +country.total_recovered.replace(",", "");
+            WORLD.total_recovered += (country.total_recovered!="N/A") ? +country.total_recovered.replace(",", "") : 0;
+            //console.log(WORLD.total_recovered);
             WORLD.deaths += +country.deaths.replace(",", "");
             WORLD.active_cases += +country.active_cases.replace(",", "");
             WORLD.new_cases += +country.new_cases.replace(",", "");
         })
 
 
+        WORLD.total_recovered = addComma(WORLD.cases-WORLD.active_cases-WORLD.deaths);
         WORLD.cases = addComma(WORLD.cases);
-        WORLD.total_recovered = addComma(WORLD.total_recovered);
+        //WORLD.total_recovered = addComma(WORLD.total_recovered);
         WORLD.deaths = addComma(WORLD.deaths);
         WORLD.active_cases = addComma(WORLD.active_cases);
         WORLD.new_cases = addComma(WORLD.new_cases);
