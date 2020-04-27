@@ -10,7 +10,7 @@ xhr.withCredentials = true;
 xhr.addEventListener("readystatechange", function () {
     if (this.readyState === this.DONE) {
         const response = JSON.parse(this.responseText);
-        //console.log(response);
+        // console.log(response);
         response.countries_stat.splice(0,1);
         main(response);
     }
@@ -33,7 +33,7 @@ function main(response) {
     const WorldStat = getWorldStat(response.countries_stat)
 
     response.countries_stat.push(WorldStat);
-    
+
 
     addCard(WorldStat, "disabled")
     addpinned(localStorage.getItem("pinned"))
@@ -225,18 +225,20 @@ function main(response) {
             active_cases: 0,
             new_cases: 0
         }
-
+        
         countries.forEach(country => {
-            WORLD.cases += +country.cases.replace(",", "");
-            WORLD.total_recovered += (country.total_recovered!="N/A") ? +country.total_recovered.replace(",", "") : 0;
-            //console.log(WORLD.total_recovered);
-            WORLD.deaths += +country.deaths.replace(",", "");
-            WORLD.active_cases += +country.active_cases.replace(",", "");
-            WORLD.new_cases += +country.new_cases.replace(",", "");
+            
+            WORLD.cases += +country.cases.replace(/,/g,"");
+           
+            WORLD.total_recovered += (country.total_recovered != "N/A") ? +country.total_recovered.replace(/,/g,"") : 0;
+            WORLD.deaths += +country.deaths.replace(/,/g,"");
+            WORLD.active_cases += +country.active_cases.replace(/,/g,"");
+            WORLD.new_cases += +country.new_cases.replace(/,/g,"");
+
         })
 
 
-        WORLD.total_recovered = addComma(WORLD.cases-WORLD.active_cases-WORLD.deaths);
+        WORLD.total_recovered = addComma(WORLD.cases - WORLD.active_cases - WORLD.deaths);
         WORLD.cases = addComma(WORLD.cases);
         //WORLD.total_recovered = addComma(WORLD.total_recovered);
         WORLD.deaths = addComma(WORLD.deaths);
