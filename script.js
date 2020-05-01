@@ -10,7 +10,7 @@ xhr.withCredentials = true;
 xhr.addEventListener("readystatechange", function () {
     if (this.readyState === this.DONE) {
         const response = JSON.parse(this.responseText);
-        // console.log(response);
+        //console.log(response);
         response.countries_stat.splice(0,1);
         main(response);
     }
@@ -126,6 +126,10 @@ function main(response) {
                 <span class="label">New cases Today : </span>
                 <span class="counter">${data.new_cases}</span>
             </div>
+            <div class="card-item new_deaths">
+                <span class="label">New deaths Today : </span>
+                <span class="counter">${data.new_deaths}</span>
+            </div>
         </div>`;
 
         cardContainer.innerHTML += card;
@@ -223,7 +227,8 @@ function main(response) {
             total_recovered: 0,
             deaths: 0,
             active_cases: 0,
-            new_cases: 0
+            new_cases: 0,
+            new_deaths: 0
         }
         
         countries.forEach(country => {
@@ -234,6 +239,7 @@ function main(response) {
             WORLD.deaths += +country.deaths.replace(/,/g,"");
             WORLD.active_cases += +country.active_cases.replace(/,/g,"");
             WORLD.new_cases += +country.new_cases.replace(/,/g,"");
+            WORLD.new_deaths += +country.new_deaths.replace(/,/g,"");
 
         })
 
@@ -244,6 +250,7 @@ function main(response) {
         WORLD.deaths = addComma(WORLD.deaths);
         WORLD.active_cases = addComma(WORLD.active_cases);
         WORLD.new_cases = addComma(WORLD.new_cases);
+        WORLD.new_deaths = addComma(WORLD.new_deaths);
 
 
         return WORLD;
