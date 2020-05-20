@@ -11,7 +11,7 @@ xhr.addEventListener("readystatechange", function () {
     if (this.readyState === this.DONE) {
         const response = JSON.parse(this.responseText);
         //console.log(response);
-        response.countries_stat.splice(0,1);
+        //response.countries_stat.splice(0,1);
         main(response);
     }
 });
@@ -232,14 +232,12 @@ function main(response) {
         }
         
         countries.forEach(country => {
-            
-            WORLD.cases += +country.cases.replace(/,/g,"");
-           
+            WORLD.cases += (country.cases != "N/A") ? +country.cases.replace(/,/g,"") : 0;
             WORLD.total_recovered += (country.total_recovered != "N/A") ? +country.total_recovered.replace(/,/g,"") : 0;
-            WORLD.deaths += +country.deaths.replace(/,/g,"");
-            WORLD.active_cases += +country.active_cases.replace(/,/g,"");
-            WORLD.new_cases += +country.new_cases.replace(/,/g,"");
-            WORLD.new_deaths += +country.new_deaths.replace(/,/g,"");
+            WORLD.deaths += (country.deaths != "N/A") ? +country.deaths.replace(/,/g,"") : 0;
+            WORLD.active_cases += (country.active_cases != "N/A") ? +country.active_cases.replace(/,/g,"") : 0;
+            WORLD.new_cases += (country.new_cases != "N/A") ? +country.new_cases.replace(/,/g,"") : 0;
+            WORLD.new_deaths += (country.new_deaths != "N/A") ? +country.new_deaths.replace(/,/g,"") : 0;
 
         })
 
